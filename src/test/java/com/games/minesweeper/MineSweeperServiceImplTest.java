@@ -8,7 +8,6 @@ import com.games.minesweeper.model.*;
 import com.games.minesweeper.repository.GameRepository;
 import com.games.minesweeper.service.MineSweeperServiceImpl;
 import com.games.minesweeper.dto.MineSweeper;
-import com.games.minesweeper.service.model.*;
 import com.games.minesweeper.util.GameHelper;
 import org.junit.Before;
 import org.junit.Test;
