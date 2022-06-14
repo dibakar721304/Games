@@ -46,7 +46,7 @@ public class MineSweeperServiceImpl implements MineSweeperService {
                     .gridBox(mineSweeper.getGridBox())
                     .build();
         } catch(Exception exception) {
-            throw new GameException(String.format("[Minesweeper Service] - Error trying to create a new game for username=%s",
+            throw new GameException(String.format("Error trying to create a new game for username=%s",
                     boardRequest.getName()), exception);
         }
     }
@@ -70,12 +70,12 @@ public class MineSweeperServiceImpl implements MineSweeperService {
         }
         gridBox = game.get().getGridBox();
         log.info("Executing the play of username={} in row={} and column={}", username, row, column);
-       if(row>gridBox.length-1 || column>gridBox.length-1)
+       if(row>game.get().getGridBox().length - 1 || column>game.get().getGridBox()[0].length - 1)
        {
            throw new GameException(String.format("Row or column value exceeds grid size", gridBox.length));
        }
         if (gameHelper.mineFound(gridBox, row, column)) {
-            log.debug("Blows up in row={} and column={} !!!", row, column);
+            log.debug("Blows up in row={} and column={}", row, column);
             game.get().setState(GameStates.BLOWUP);
         } else {
             gameHelper.clearEmptySpots(gridBox, request.getRow(), request.getColumn(), game.get().getGridBox().length - 1, game.get().getGridBox()[0].length - 1);
@@ -88,7 +88,7 @@ public class MineSweeperServiceImpl implements MineSweeperService {
             game.get().setGridBox(gridBox);
 
             if (gameHelper.alreadyWon(gridBox)) {
-                log.info("Game Won!!!");
+                log.info("Game Won");
                 game.get().setState(GameStates.WON);
             }
         }
@@ -100,9 +100,9 @@ public class MineSweeperServiceImpl implements MineSweeperService {
     public MineSweeperBean resetGameStatus(String userName) {
                Optional<MineSweeper> game  =
                 Optional.ofNullable(gameRepository.findByUserNameAndState(userName, GameStates.BLOWUP)
-                        .orElseThrow(() -> new GameException(String.format("Game not found with userName={}", userName))));
+                        .orElseThrow(() -> new GameException(String.format("Game not found with BLOWUP status for userName %s", userName))));
         if(!game.isPresent())
-        throw new GameException(String.format("Could not set ACTIVE status for userName={} =%s", userName) );
+        throw new GameException(String.format("Could not set ACTIVE status for userName %s", userName) );
         game.get().setState(GameStates.ACTIVE);
         return modelMapper.map(gameRepository.save(game.get()), MineSweeperBean.class);
     }

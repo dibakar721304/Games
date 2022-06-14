@@ -24,7 +24,7 @@ public class GameHelper {
                 gridBox[i][j].setVerticalPosition(j);
             }
         }
-        log.info("A new game was initialized with rows={}, columns={}, mines={} for usaername={}",
+        log.info("Game has been set up with rows={}, columns={}, mines={} for userName={}",
                 boardRequest.getRows(), boardRequest.getColumns(), boardRequest.getMines(), boardRequest.getName());
         return gridBox;
     }
@@ -91,24 +91,24 @@ public class GameHelper {
         return true;
     }
 
-    public void clearEmptySpots(GridBox[][] gridBox, int x, int y, int xMax, int yMax) {
-        // Base Case
-        if (x < 0 || x > xMax || y < 0 || y > yMax){
+    public void clearEmptySpots(GridBox[][] gridBox, int horizontalPosition, int verticalPosition, int horizontalLength, int verticalLength) {
+        if (horizontalPosition < 0 || horizontalPosition > horizontalLength || verticalPosition < 0 || verticalPosition > verticalLength){
             return;
         }
 
-        if ( gridBox[x][y].getNumberOfMinesAround()== 0 && !gridBox[x][y].isBoxShown()) {
-            gridBox[x][y].setBoxShown(true);
-            clearEmptySpots(gridBox, x+1, y , xMax, yMax);
-            clearEmptySpots(gridBox, x+1, y+1 , xMax, yMax);
-            clearEmptySpots(gridBox, x+1, y-1 , xMax, yMax);
-            clearEmptySpots(gridBox, x-1, y , xMax, yMax);
-            clearEmptySpots(gridBox, x-1, y-1 , xMax, yMax);
-            clearEmptySpots(gridBox, x-1, y+1 , xMax, yMax);
-            clearEmptySpots(gridBox, x, y-1 , xMax, yMax);
-            clearEmptySpots(gridBox, x, y+1 , xMax, yMax);
-        } else {
-            return;
+        if ( gridBox[horizontalPosition][verticalPosition].getNumberOfMinesAround()== 0 && !gridBox[horizontalPosition][verticalPosition].isBoxShown()) {
+            gridBox[horizontalPosition][verticalPosition].setBoxShown(true);
+            clearEmptySpots(gridBox, horizontalPosition + 1, verticalPosition, horizontalLength, verticalLength);
+            clearEmptySpots(gridBox, horizontalPosition + 1, verticalPosition + 1, horizontalLength, verticalLength);
+            clearEmptySpots(gridBox, horizontalPosition + 1, verticalPosition - 1, horizontalLength, verticalLength);
+            clearEmptySpots(gridBox, horizontalPosition - 1, verticalPosition, horizontalLength, verticalLength);
+            clearEmptySpots(gridBox, horizontalPosition - 1, verticalPosition - 1, horizontalLength, verticalLength);
+            clearEmptySpots(gridBox, horizontalPosition - 1, verticalPosition + 1, horizontalLength, verticalLength);
+            clearEmptySpots(gridBox, horizontalPosition, verticalPosition - 1, horizontalLength, verticalLength);
+            clearEmptySpots(gridBox, horizontalPosition, verticalPosition + 1, horizontalLength, verticalLength);
         }
+//        } else {
+//            return;
+//        }
     }
 }

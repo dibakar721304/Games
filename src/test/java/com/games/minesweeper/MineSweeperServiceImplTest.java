@@ -45,16 +45,15 @@ public class MineSweeperServiceImplTest {
 
 
     @Before
-    public void init() {
+    public void setUp() {
         GridBox[][] gridBox = new GridBox[2][2];
-        mineSweeper = MineSweeper.builder().id(321L).userName("MineSweeperTest").gridBox(gridBox).build();
+        mineSweeper = MineSweeper.builder().id(20L).userName("MineSweeperTest").gridBox(gridBox).build();
 
         request = BoardRequest.builder().columns(5).rows(5).mines(5).name("MinesweeperTest").build();
     }
 
     @Test
-    public void testCreateGameSuccessful() {
-        BoardRequest request = BoardRequest.builder().columns(5).rows(5).mines(5).name("MinesweeperTest").build();
+    public void testCreateNewGameSuccessful() {
         when(gameRepository.findByUserNameAndState(request.getName(), GameStates.ACTIVE)).thenReturn(Optional.empty());
         when(gameRepository.save(any(MineSweeper.class))).thenReturn(mineSweeper);
         mineSweeperServiceImpl.createNewGame(request);
@@ -63,7 +62,7 @@ public class MineSweeperServiceImplTest {
     }
 
     @Test(expected = GameException.class)
-    public void testCreateGameNameAlreadyExists() {
+    public void testCreateNewGameAlreadyExists() {
         when(gameRepository.findByUserNameAndState(request.getName(), GameStates.ACTIVE))
                 .thenReturn(Optional.of(new MineSweeper()));
 
@@ -71,7 +70,7 @@ public class MineSweeperServiceImplTest {
     }
 
     @Test
-    public void testGetGame() {
+    public void testGetUserGame() {
         when(gameRepository.findByUserNameAndState(request.getName(), GameStates.ACTIVE)).thenReturn(Optional.of(mineSweeper));
         when(modelMapper.map(mineSweeper, MineSweeperBean.class)).thenReturn(MineSweeperBean.builder().build());
         assertThat(mineSweeperServiceImpl.getUserGame(request.getName())).isNotNull();
@@ -84,7 +83,7 @@ public class MineSweeperServiceImplTest {
     }
 
     @Test(expected = GameException.class)
-    public void testGetGameNotFound() {
+    public void testGetUserGameNotFound() {
         when(gameRepository.findByUserNameAndState(request.getName(), GameStates.ACTIVE)).thenReturn(Optional.empty());
         mineSweeperServiceImpl.getUserGame(request.getName());
     }
