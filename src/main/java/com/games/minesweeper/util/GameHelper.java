@@ -107,8 +107,5 @@ public class GameHelper {
             clearEmptySpots(gridBox, horizontalPosition, verticalPosition - 1, horizontalLength, verticalLength);
             clearEmptySpots(gridBox, horizontalPosition, verticalPosition + 1, horizontalLength, verticalLength);
         }
-//        } else {
-//            return;
-//        }
     }
 }

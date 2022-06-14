@@ -15,18 +15,18 @@ public interface MineSweeperService {
 
     /**
      * Gets the current user game.
-     * @param username
+     * @param userName
      * @return
      */
-    MineSweeperBean getUserGame(String username);
+    MineSweeperBean getUserGame(String userName);
 
     /**
      * Hits the playing logic of the game
-     * @param username
+     * @param userName
      * @param request
      * @return
      */
-    MineSweeperBean playGame(String username, PlayRequest request);
+    MineSweeperBean playGame(String userName, PlayRequest request);
 
     /**
      * If the game status is BLOWUP, restes the game status to ACTIVE

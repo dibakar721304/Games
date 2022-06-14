@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface GameRepository extends JpaRepository<MineSweeper, Long> {
 
-    Optional<MineSweeper> findByUserNameAndState(String useerName, GameStates State);
+    Optional<MineSweeper> findByUserNameAndState(String userName, GameStates State);
 
 }
